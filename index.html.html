@@ -14,8 +14,9 @@
   --text:#1a1a2e;--muted:#7a8296;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Lato',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;}
-.page{display:none;min-height:100vh;}
+html{height:100%;}
+body{font-family:'Lato',sans-serif;background:var(--cream);color:var(--text);height:100%;overflow:hidden;}
+.page{display:none;height:100vh;height:100dvh;overflow-y:auto;overflow-x:hidden;}
 .page.active{display:flex;flex-direction:column;}
 
 /* ── SPLASH ── */
@@ -30,22 +31,22 @@ body{font-family:'Lato',sans-serif;background:var(--cream);color:var(--text);min
 .btn-retry:hover{background:var(--goldL);}
 
 /* ── HOME ── */
-#home{background:linear-gradient(155deg,#060f1f 0%,var(--navy) 45%,var(--navy3) 100%);position:relative;overflow:hidden;}
+#home{background:linear-gradient(155deg,#060f1f 0%,var(--navy) 45%,var(--navy3) 100%);position:relative;overflow:hidden;height:100vh;height:100dvh;}
 #home::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 65% 30%,rgba(201,168,76,0.1) 0%,transparent 60%);}
-.home-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;position:relative;z-index:1;}
-.home-badge{border:1px solid rgba(201,168,76,0.35);color:var(--goldL);font-size:10.5px;letter-spacing:2.5px;text-transform:uppercase;padding:7px 24px;border-radius:50px;margin-bottom:32px;}
-.home-title{font-family:'Playfair Display',serif;font-size:clamp(30px,5vw,56px);font-weight:700;color:#fff;text-align:center;line-height:1.18;margin-bottom:14px;}
+.home-content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;position:relative;z-index:1;min-height:0;}
+.home-badge{border:1px solid rgba(201,168,76,0.35);color:var(--goldL);font-size:10.5px;letter-spacing:2.5px;text-transform:uppercase;padding:6px 20px;border-radius:50px;margin-bottom:20px;}
+.home-title{font-family:'Playfair Display',serif;font-size:clamp(24px,5vw,52px);font-weight:700;color:#fff;text-align:center;line-height:1.18;margin-bottom:10px;}
 .home-title span{color:var(--gold);font-style:italic;}
-.home-subtitle{font-size:15px;color:rgba(255,255,255,0.52);text-align:center;max-width:480px;line-height:1.78;margin-bottom:54px;}
-.home-cards{display:flex;gap:26px;flex-wrap:wrap;justify-content:center;}
-.home-card{background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.2);backdrop-filter:blur(14px);border-radius:14px;padding:40px 44px;width:268px;text-align:center;cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden;}
+.home-subtitle{font-size:14px;color:rgba(255,255,255,0.52);text-align:center;max-width:460px;line-height:1.65;margin-bottom:32px;}
+.home-cards{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;width:100%;max-width:600px;}
+.home-card{background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.2);backdrop-filter:blur(14px);border-radius:14px;padding:28px 32px;flex:1;min-width:200px;max-width:260px;text-align:center;cursor:pointer;transition:all 0.3s;position:relative;overflow:hidden;}
 .home-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--gold);transform:scaleX(0);transition:transform 0.3s;}
-.home-card:hover{background:rgba(255,255,255,0.09);transform:translateY(-5px);border-color:rgba(201,168,76,0.5);}
+.home-card:hover{background:rgba(255,255,255,0.09);transform:translateY(-4px);border-color:rgba(201,168,76,0.5);}
 .home-card:hover::after{transform:scaleX(1);}
-.card-icon{font-size:44px;margin-bottom:18px;display:block;}
-.home-card h3{font-family:'Playfair Display',serif;font-size:20px;color:#fff;margin-bottom:8px;}
-.home-card p{font-size:13px;color:rgba(255,255,255,0.42);line-height:1.65;}
-.home-footer{padding:22px;text-align:center;color:rgba(255,255,255,0.18);font-size:12px;position:relative;z-index:1;}
+.card-icon{font-size:36px;margin-bottom:14px;display:block;}
+.home-card h3{font-family:'Playfair Display',serif;font-size:18px;color:#fff;margin-bottom:6px;}
+.home-card p{font-size:12px;color:rgba(255,255,255,0.42);line-height:1.6;}
+.home-footer{padding:14px;text-align:center;color:rgba(255,255,255,0.18);font-size:11px;position:relative;z-index:1;flex-shrink:0;}
 
 /* ── INNER HEADER ── */
 .inner-header{background:var(--navy);padding:15px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--gold);}
@@ -610,7 +611,13 @@ body{font-family:'Lato',sans-serif;background:var(--cream);color:var(--text);min
         <div class="stat-card red"><div class="sv" id="stat-fail">0</div><div class="sl">Failed</div></div>
         <div class="stat-card"><div class="sv" id="stat-avg">—</div><div class="sl">Avg. Score</div></div>
       </div>
-      <div class="section-hdr"><h3>Examination Records</h3><button class="btn-navy" onclick="exportCSV()">⬇ Export CSV</button></div>
+      <div class="section-hdr">
+        <h3>Examination Records</h3>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn-green" onclick="downloadAllCertificates()" title="Download all passed staff certificates as one PDF">⬇ All Certificates</button>
+          <button class="btn-navy" onclick="exportCSV()">⬇ Export CSV</button>
+        </div>
+      </div>
       <div class="recs-controls">
         <input type="text" class="search-inp" id="search-inp" placeholder="🔍 Search by name or employee ID..." oninput="filterRecs()"/>
         <select class="flt-sel" id="flt-result" onchange="filterRecs()"><option value="">All Results</option><option value="pass">Passed</option><option value="fail">Failed</option></select>
@@ -1262,101 +1269,108 @@ function fillCert(rec){
   document.getElementById('cert-test-disp').textContent='Test '+(rec.testId||'A');
 }
 
-/* ── PDF Download ── */
+/* ── Shared PDF lib loader ── */
+function loadPDFLibs(){
+  const loadLib=(src)=>new Promise((res,rej)=>{
+    if(document.querySelector('script[src="'+src+'"]')){res();return;}
+    const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);
+  });
+  return Promise.all([
+    loadLib('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'),
+    loadLib('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js')
+  ]);
+}
+
+function captureCert(){
+  return new Promise(function(resolve,reject){
+    const certEl=document.querySelector('.cert');
+    const origWidth=certEl.style.width;
+    certEl.style.width='800px';
+    setTimeout(function(){
+      html2canvas(certEl,{
+        scale:2,useCORS:true,allowTaint:true,
+        backgroundColor:'#ffffff',logging:false,
+        imageTimeout:0,width:800,windowWidth:900,
+        onclone:function(clonedDoc){
+          const cc=clonedDoc.querySelector('.cert');
+          if(cc) cc.style.width='800px';
+          const sigImg=clonedDoc.querySelector('.cert img');
+          if(sigImg){
+            const c=clonedDoc.createElement('canvas');
+            c.style.cssText=sigImg.style.cssText;
+            c.width=sigImg.naturalWidth||300;
+            c.height=sigImg.naturalHeight||100;
+            const ctx=c.getContext('2d');
+            const ti=new Image(); ti.src=sigImg.src;
+            ctx.drawImage(ti,0,0);
+            sigImg.parentNode.replaceChild(c,sigImg);
+          }
+        }
+      }).then(function(canvas){
+        certEl.style.width=origWidth;
+        resolve(canvas);
+      }).catch(function(e){
+        certEl.style.width=origWidth;
+        reject(e);
+      });
+    },350);
+  });
+}
+
+/* ── Single PDF Download ── */
 function downloadPDF(){
   const btn=document.getElementById('btn-dl-pdf');
   const orig=btn.innerHTML; btn.innerHTML='⏳ Generating...'; btn.disabled=true;
-
-  const loadLib=(src)=>new Promise((res,rej)=>{
-    if(document.querySelector(`script[src="${src}"]`)){res();return;}
-    const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s);
+  loadPDFLibs().then(function(){
+    return captureCert();
+  }).then(function(canvas){
+    const {jsPDF}=window.jspdf;
+    const pdf=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+    const pw=pdf.internal.pageSize.getWidth();
+    const ph=pdf.internal.pageSize.getHeight();
+    const ih=(canvas.height*pw)/canvas.width;
+    pdf.addImage(canvas.toDataURL('image/png',1.0),'PNG',0,ih<ph?(ph-ih)/2:0,pw,ih);
+    const n=(document.getElementById('cert-name-disp').textContent||'Certificate').replace(/\s+/g,'_');
+    const id=document.getElementById('cert-id-disp').textContent||'cert';
+    pdf.save(n+'_FoodAllergy_Certificate_'+id+'.pdf');
+    btn.innerHTML='✅ Downloaded!';
+    setTimeout(function(){btn.innerHTML=orig;btn.disabled=false;},2500);
+  }).catch(function(){
+    btn.innerHTML=orig; btn.disabled=false;
+    showToast('PDF failed. Try Print button instead.','bad');
   });
+}
 
-  // Pre-load all images in the cert so html2canvas can see them
-  function preloadCertImages(){
-    return new Promise(resolve=>{
-      const imgs = document.querySelectorAll('.cert img');
-      if(!imgs.length){resolve();return;}
-      let loaded=0;
-      imgs.forEach(img=>{
-        if(img.complete){
-          // Convert to canvas inline so html2canvas can pick it up
-          const c=document.createElement('canvas');
-          c.width=img.naturalWidth||img.width;
-          c.height=img.naturalHeight||img.height;
-          c.getContext('2d').drawImage(img,0,0);
-          img.setAttribute('data-ready','1');
-          loaded++;
-          if(loaded===imgs.length) resolve();
-        } else {
-          img.onload=()=>{loaded++;if(loaded===imgs.length)resolve();};
-          img.onerror=()=>{loaded++;if(loaded===imgs.length)resolve();};
-        }
-      });
-    });
+/* ── Download ALL Certificates ── */
+async function downloadAllCertificates(){
+  const passed=allRecs.filter(function(r){return r.passed;});
+  if(!passed.length){showToast('No passed records found.','bad');return;}
+  if(!confirm('Download all '+passed.length+' certificates as one PDF? This may take a moment.')) return;
+  try{
+    await loadPDFLibs();
+    const {jsPDF}=window.jspdf;
+    const pdf=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+    // Navigate to certificate page first
+    const prevPage=document.querySelector('.page.active')?.id;
+    showPage('certificate');
+    for(let i=0;i<passed.length;i++){
+      showToast('Generating '+(i+1)+' of '+passed.length+'...','');
+      fillCert(passed[i]);
+      await new Promise(function(r){setTimeout(r,500);});
+      const canvas=await captureCert();
+      if(i>0) pdf.addPage();
+      const pw=pdf.internal.pageSize.getWidth();
+      const ph=pdf.internal.pageSize.getHeight();
+      const ih=(canvas.height*pw)/canvas.width;
+      pdf.addImage(canvas.toDataURL('image/png',1.0),'PNG',0,ih<ph?(ph-ih)/2:0,pw,ih);
+    }
+    const date=new Date().toISOString().slice(0,10);
+    pdf.save('RadissonBlu_All_Certificates_'+date+'.pdf');
+    showToast('All '+passed.length+' certificates downloaded!','ok');
+    if(prevPage) showPage(prevPage);
+  }catch(e){
+    showToast('Failed: '+e.message,'bad');
   }
-
-  Promise.all([
-    loadLib('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'),
-    loadLib('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js')
-  ]).then(()=> preloadCertImages())
-  .then(()=>{
-    const certEl=document.querySelector('.cert');
-    const vp=document.querySelector('.cert-viewport');
-    const origBg=vp.style.background;
-    vp.style.background='#fff';
-
-    // Small delay to ensure DOM is painted
-    setTimeout(()=>{
-      html2canvas(certEl,{
-        scale:3,
-        useCORS:true,
-        allowTaint:true,
-        backgroundColor:'#ffffff',
-        logging:false,
-        imageTimeout:0,
-        onclone:(clonedDoc)=>{
-          // In the cloned document, replace all sig <img> with canvas elements
-          // so html2canvas renders them reliably
-          clonedDoc.querySelectorAll('.cert img').forEach(img=>{
-            const c=clonedDoc.createElement('canvas');
-            c.width=img.naturalWidth||300;
-            c.height=img.naturalHeight||100;
-            c.style.cssText=img.style.cssText;
-            c.style.display='block';
-            c.style.margin=img.style.margin||'0 auto 6px';
-            c.style.maxWidth=img.style.maxWidth||'220px';
-            c.style.height=img.style.height||'58px';
-            c.style.objectFit='contain';
-            const ctx=c.getContext('2d');
-            // Draw the original img (src is data URI so it's available)
-            const tempImg=new Image();
-            tempImg.src=img.src;
-            ctx.drawImage(tempImg,0,0,c.width,c.height);
-            img.parentNode.replaceChild(c,img);
-          });
-        }
-      }).then(canvas=>{
-        vp.style.background=origBg;
-        const {jsPDF}=window.jspdf;
-        const pdf=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
-        const pw=pdf.internal.pageSize.getWidth();
-        const ph=pdf.internal.pageSize.getHeight();
-        const ih=(canvas.height*pw)/canvas.width;
-        const yo=ih<ph?(ph-ih)/2:0;
-        pdf.addImage(canvas.toDataURL('image/png',1.0),'PNG',0,yo,pw,ih);
-        const n=(document.getElementById('cert-name-disp').textContent||'Certificate').replace(/\s+/g,'_');
-        const id=document.getElementById('cert-id-disp').textContent||'cert';
-        pdf.save(`${n}_FoodAllergy_Certificate_${id}.pdf`);
-        btn.innerHTML='✅ Downloaded!';
-        setTimeout(()=>{btn.innerHTML=orig;btn.disabled=false;},2500);
-      }).catch(e=>{
-        vp.style.background=origBg;
-        btn.innerHTML=orig; btn.disabled=false;
-        showToast('PDF failed. Try the Print button instead.','bad');
-      });
-    }, 300);
-  }).catch(()=>{btn.innerHTML=orig;btn.disabled=false;showToast('Could not load PDF library. Check internet connection.','bad');});
 }
 
 /* ── Admin Login ── */
